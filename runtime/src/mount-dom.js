@@ -10,9 +10,11 @@ export function mountDom(vdom, parentEl) {
     }
     case DOM_TYPES.ELEMENT: {
       createElementNode(vdom, parentEl);
+      break;
     }
     case DOM_TYPES.FRAGMENT: {
       createFragmentNodes(vdom, parentEl);
+      break;
     }
 
     default: {
@@ -47,4 +49,8 @@ function addProps(el, props, vdom) {
   setAttributes(el, attrs);
 }
 
-function createFragmentNodes() {}
+function createFragmentNodes(vdom, parentEl) {
+  const { children } = vdom;
+  vdom.el = parentEl;
+  children.forEach((child) => mountDom(child, parentEl));
+}
